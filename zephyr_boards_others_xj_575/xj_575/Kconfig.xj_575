@@ -1,0 +1,2 @@
+config BOARD_XJ_575
+        select SOC_STM32U575XX

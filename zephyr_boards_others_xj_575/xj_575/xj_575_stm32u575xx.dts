@@ -1,0 +1,111 @@
+/dts-v1/;
+
+/* Include files */
+//#include <CPU.dtsi> //If required CPU core definition 
+		    //eg arm/armv7-m.dtsi
+
+#include <st/u5/stm32u575Xi.dtsi> //Mandatory Soc definitions
+#include <st/u5/stm32u575zitxq-pinctrl.dtsi> //pinctrl def files specific to microcontroller variants
+					     // located in modules/hal/stm32
+//#include <optional-bindings.h> //optional: constants(GPIO flags, clocks, interrupts, etc.) 
+
+// /memreserve/ <base> <size>
+
+
+/ { 
+
+  compatible = "xj,board";
+  model      = "u575";
+
+  /* Optiional: global settings */
+  chosen{
+                zephyr,console = &usart1;       
+                zephyr,flash = &flash0;       
+                zephyr,sram = &sram0;       
+        };
+
+    aliases {
+        led00 = &led1; // 1. Alias points to the node label
+        led01 = &led2; // 1. Alias points to the node label
+        led02 = &led3; // 1. Alias points to the node label
+        button = &button1;
+    };
+
+  	leds {
+  		compatible = "gpio-leds";
+  		led1: led_1 {
+  			gpios = <&gpioc 7 GPIO_ACTIVE_HIGH>;
+            label = "USER_LED1";
+  		};
+  		led2: led_2 {
+  			gpios = <&gpiob 7 GPIO_ACTIVE_HIGH>;
+            label = "USER_LED2";
+  		};
+  		led3: led_3 {
+  			gpios = <&gpiog 2 GPIO_ACTIVE_HIGH>;
+            label = "USER_LED3";
+  		};
+  	}; 
+
+    buttons {
+        compatible = "gpio-keys";
+  		button1: button_1 {
+  			gpios = <&gpioc 13 GPIO_ACTIVE_HIGH>;
+            label = "USER_BUTTON";
+  		};
+    };  
+     
+  };
+
+&rcc {
+  apb3-prescaler = <1>;
+};
+
+
+&rcc {
+    /delete-property/ clocks; /* Only if you need to override the default clock source */
+    
+    clocks = <&pll>;
+    clock-frequency = <DT_FREQ_M(160)>; /* Example: 160 MHz system clock */
+    
+    /* Add the required prescalers here */
+    ahb-prescaler = <1>;
+    apb1-prescaler = <1>;
+    apb2-prescaler = <1>;
+    apb3-prescaler = <1>;
+};
+
+//&i2c1 { 
+//   pinctrl-0 = <&i2c1_scl_pb6, &i2c1_sda_pb7>;
+//   status ="okay"
+//   mpu6050@68 {
+//      compatible: "invensense,mpu6050"
+//      int-gpios <&gpioa 0 GPIO_ACTIVE_HIGH> //int-gpios comes from binding document GPIO_ACTIVE_HIGH comes from zephyr include files
+//      reg = <0x68>;
+//      }
+//
+//}
+&gpiob {
+    status = "okay";
+};
+&gpiog {
+    status = "okay";
+};
+&gpioc {
+    status = "okay";
+};
+
+&usart1 {
+    pinctrl-0 = <&usart1_tx_pa9 &usart1_rx_pa10>;
+    pinctrl-names = "default";
+    status ="okay";
+    current-speed = <115200>;
+};
+&pll {
+	div-m = <1>;
+	mul-n = <80>;
+	div-q = <2>;
+	div-r = <2>;
+	clocks = <&clk_msis>;
+	status = "okay";
+};

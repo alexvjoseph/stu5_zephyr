@@ -1,0 +1,15 @@
+board:
+  name: xj_575
+  full_name: xj stm32 u575
+  vendor: xj
+  revision:
+    format: major.minor.patch 
+    default: "1.0.0"
+    exact: true
+    revisions:
+    - name: "1.0.0"
+    - name: "1.1.0"
+  socs:
+  - name: stm32u575xx
+    variants:
+    - name: stm32u575zi
