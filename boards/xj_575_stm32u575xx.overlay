@@ -1,0 +1,4 @@
+  	&{/leds} {
+  		compatible = "xj,gpio-leds", "gpio-leds";
+        blink-period-ms = <30>;
+  	};   
