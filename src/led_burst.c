@@ -19,8 +19,12 @@ void led_burst_work_handler(struct k_work *work){
         return;
     }
 
+    k_spinlock_key_t key = k_spin_lock(&led_brst->toggle_lock);
     led_brst->toggles_remaining--;
     remaining = led_brst->toggles_remaining;
+    k_spin_unlock(&led_brst->toggle_lock, key);
+
+
     led_toggle(led_brst->led);
 
     if(remaining > 0){
@@ -48,7 +52,13 @@ void led_burst_init(struct led_burst_ctx *led_burst, usr_led *burst_led){
 }
 
 void led_burst_start_or_restart(struct led_burst_ctx *led_burst){
+
+
+    k_spinlock_key_t key = k_spin_lock(&led_burst->toggle_lock);
     led_burst->toggles_remaining = led_burst->count*2U;
+    k_spin_unlock(&led_burst->toggle_lock, key);
+
+
     (void)k_work_reschedule(&led_burst->work, K_MSEC(500));
 }
 

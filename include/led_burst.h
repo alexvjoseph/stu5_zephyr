@@ -5,6 +5,7 @@
 struct led_burst_ctx
 {
     uint32_t                toggles_remaining;
+    struct k_spinlock       toggle_lock;
     uint32_t                period_ms;
     uint32_t                count;
     struct k_work_delayable work;
