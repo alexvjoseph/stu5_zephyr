@@ -63,32 +63,7 @@ int main(void)
     // 4. loop forever: toggle the LED & sleep for 500ms
     while(true){
 
-
-    //   if(led_toggle(&led1)<0){
-
-    //       return 0;
-    //   }
-    //   k_msleep(led_get_period_ms());
-
-    //   if(led_toggle(&led2)<0){
-
-    //       return 0;
-    //   }
-
-    //   k_msleep(led_get_period_ms());
-
-    //   if(led_toggle(&led3)<0){
-
-    //       return 0;
-    //   }
-    //   
-    //  // printf("LED STATE: %s \n", led1.led_state ? "LED1_ON" : "LED1_OFF");
-    //  // printf("LED STATE: %s \n", led2.led_state ? "LED2_ON" : "LED2_OFF");
-    //  // printf("LED STATE: %s \n", led3.led_state ? "LED3_ON" : "LED3_OFF");
-
-    //   k_msleep(led_get_period_ms());
     }
-    // 5. Print a message on console
 
 	return 0;
 }
