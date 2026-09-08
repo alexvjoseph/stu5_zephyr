@@ -62,7 +62,7 @@ int main(void)
 
     // 4. loop forever: toggle the LED & sleep for 500ms
     while(true){
-
+        k_msleep(100);
     }
 
 	return 0;

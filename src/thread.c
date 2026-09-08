@@ -26,12 +26,12 @@ delay	        Scheduling delay (in milliseconds), zero for no delay.
 
 */
 K_THREAD_DEFINE 	( 		
-            button_event_thread_object, 1024,
+               button_event_thread_object, 1024,
 			button_event_handler,
 			NULL,
 			NULL,
 			NULL,
-			3,
+			7,
 			0,
 			0 
         );
@@ -64,19 +64,17 @@ void button_event_handler(void *p1, void *p2, void *p3){
      ARG_UNUSED(p3);
 
      struct button_event evt;
-
+     printk("Button thread started successfully!\n");
      while(true){
-
-          k_msgq_get(&button_msgq, &evt, K_FOREVER);
-
+          printk("Thread waiting for message...\n"); 
+          int ret = k_msgq_get(&button_msgq, &evt, K_FOREVER);
+          printk("Thread woke up! Message status: %d, Event state: %d\n", ret, evt.state);
           if(evt.state){
                //pressed
 
                /* Make increment atomic */
                atomic_inc(&button_press_count);
-               led_burst_start_or_restart(&led_burst);
-               printf("button pressed, count is: %ld\n", button_press_count);
-
+               led_burst_start_or_restart(&led_burst );
 
           } else {
                //released
@@ -92,8 +90,8 @@ void on_button(uint32_t t_ms, uint8_t state){
     evt.t_ms =  t_ms;
     evt.state =  state;
 
-    //Post message to queue
-    if(k_msgq_put(&button_msgq, &evt, K_NO_WAIT) != 0){
+    //Put the event in to queue
+    if(k_msgq_put(&button_msgq, &evt, K_NO_WAIT) == 0){
 
     }
 }
