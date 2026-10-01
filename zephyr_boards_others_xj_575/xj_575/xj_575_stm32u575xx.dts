@@ -57,9 +57,6 @@
      
   };
 
-&rcc {
-  apb3-prescaler = <1>;
-};
 
 
 &rcc {
@@ -101,6 +98,11 @@
     status ="okay";
     current-speed = <115200>;
 };
+&clk_msis {
+    status = "okay";
+    msi-range = <4>;   /* 4 MHz */
+};
+
 &pll {
 	div-m = <1>;
 	mul-n = <80>;
